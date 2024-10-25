@@ -10,7 +10,7 @@ docker pull castroflaviojr/scistream
 
 ```
 docker run -v /vagrant/sc24/certificates:/scistream -p 2223:22 --entrypoint s2uc castroflaviojr/scistream:latest inbound-request --server_cert="/scistream/server.crt" --remote_ip 172.31.92.192 --s2cs 52.91.195.34:5000 
---receiver_ports 5074 --num_conn 1 --mock True ```
+--receiver_ports 80 --num_conn 1 --mock True ```
 
 Notice the public certificates of the Scistream control server need to exist
 
