@@ -1,6 +1,6 @@
 Hands-on Tutorial
 
-## Step 1 - Install docker
+## Prerequisites / Step 1 - Install docker
 
 ## Step 2 - Download scistream docker image
 
