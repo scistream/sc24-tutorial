@@ -41,7 +41,7 @@ The goal for this part of the tutorial is to get the user started with the Scist
 This is a client request for an inbound connection to a private server at ip address 172.31.92.192:
 
 ```bash
-docker run -v ./certificates:/scistream \
+docker run -v ./:/scistream \
     --entrypoint s2uc castroflaviojr/scistream:latest inbound-request \
     --server_cert="/scistream/server.crt" \
     --remote_ip 172.31.92.192 \
