@@ -21,7 +21,7 @@ Next we are going to make a Scistream Client request towards the Scistream Contr
 
 ### 1. Pull Tutorial
 ```
-git clone git@github.com:scistream/sc24-tutorial.git
+git clone https://github.com/scistream/sc24-tutorial.git
 ```
 
 ### 2. Pull SciStream Docker Image
