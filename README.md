@@ -93,9 +93,9 @@ The most common issue we face at this step of the tutorial is this ip address no
 ### 4. Run Local SciStream Control Server
 
 ```bash
-docker run -v /vagrant/scistream-proto/deploy/certificates:/scistream \
-    -p 2222:22 -p 5000:5000 -p 5080:5074 \
-    castroflaviojr scistream:latest \
+docker run -v ./certificates:/scistream \
+    -p 2222:22 -p 5000:5000 -p 5080:5100 \
+    castroflaviojr/scistream:latest \
     --server_crt="/scistream/server.crt" \
     --server_key="/scistream/server.key" \
     --type="StunnelSubprocess" \
