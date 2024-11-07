@@ -52,7 +52,7 @@ This is a client request for an inbound connection to a private server at ip add
 s2uc inbound-request \
     --server_cert="/scistream/server.crt" \
     --remote_ip 172.31.92.192 \
-    --s2cs 52.91.195.34:5001 \
+    --s2cs 52.23.209.2:5000 \
     --receiver_ports 80 \
     --num_conn 1
 ```
