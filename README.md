@@ -81,7 +81,7 @@ listeners: "52.23.209.2:5200"
 ```
 Now let's try accessing the resource.
 ```
-wget 52.23.209.2:5200
+curl 52.23.209.2:5200
 ```
 
 ### 1.4 Globus Auth
