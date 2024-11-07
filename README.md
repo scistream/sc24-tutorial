@@ -2,9 +2,9 @@
 
 This tutorial guides you through setting up and running SciStream using Docker containers. At the end of the tutorial you should be able to reach a streaming application hidden in a private network.
 
-In this tutorial we are going to first make a Scistream request to an existing Scistream Control Server setup at AWS. Then we are going to setup our own Scistream Control Server at a local machine.
+This tutorial has 2 parts, in the first part we focus on using the docker environment to use the Scistream CLI too to make a request to an existing Scistream Control Server setup at AWS.
 
-Next we are going to make a Scistream Client request towards the Scistream Control Server that we created. Finally we are going to stream data from the producer to the consumer.
+In the second part we are going to setup our own Scistream Control Server at a local machine. Next, we are going to make a Scistream Client request towards the Scistream Control Server that we created. Finally we are going to stream data from the producer to the consumer.
 
 ## Table of Contents
 - [Prerequisites](#prerequisites)
@@ -13,35 +13,34 @@ Next we are going to make a Scistream Client request towards the Scistream Contr
 
 ## Prerequisites
 - Docker understanding
-- Docker installed on your system
+- Docker installed on your system.
+  ```
+  https://docs.docker.com/engine/install/
+  ```
 - OpenSSL for certificate generation
 - Access to required ports (22, 5000, 5074, 5080)
 
 ## Installation Steps
 
-### 1. Pull Tutorial
+### 1.1 Pull Tutorial
 ```
 git clone https://github.com/scistream/sc24-tutorial.git
 cd sc24-tutorial
 ```
 
-### 2. Pull SciStream Docker Image
+### 1.2 Pull SciStream Docker Image
 ```bash
 docker pull castroflaviojr/scistream
 ```
 
-### 3. Setup docker volume for Certificates
-
-First let's setup a docker volume to be used by our docker container. This is important because the public certificates used for control channel encryption is required.
-
-### 4. Run SciStream User Client (S2UC)
+### 1.4 Run SciStream User Client (S2UC)
 
 The goal for this part of the tutorial is to get the user started with the Scistream User Client. For this purpose we are going to make requests against a remote Scistream Control Server at AWS as demonstrated in the figure below.
 
 This is a client request for an inbound connection to a private server at ip address 172.31.92.192:
 
 ```bash
-docker run -v ./:/scistream \
+docker run -v .:/scistream \
     --entrypoint s2uc castroflaviojr/scistream:latest inbound-request \
     --server_cert="/scistream/server.crt" \
     --remote_ip 172.31.92.192 \
