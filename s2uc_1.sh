@@ -1,5 +1,4 @@
-docker run -v .:/scistream \
-    --entrypoint s2uc castroflaviojr/scistream:latest inbound-request \
+s2uc inbound-request \
     --server_cert="/scistream/server.crt" \
     --remote_ip 172.31.92.192 \
     --s2cs 52.91.195.34:5000 \
