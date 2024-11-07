@@ -169,11 +169,11 @@ The most common issue we face at this step of the tutorial is this ip address no
 ### 2.3. Run Local SciStream Control Server
 
 ```bash
-    s2cs
-    --server_crt="/scistream/server.crt" \
-    --server_key="/scistream/server.key" \
-    --type="StunnelSubprocess" \
-    --verbose
+    s2cs \ 
+    --server_crt="server.crt" \
+    --server_key="server.key" \ 
+    --type="StunnelSubprocess" \ 
+    --listener_ip=172.17.0.2
 ```
 
 ### 5. Configure Outbound Proxy
@@ -185,7 +185,7 @@ docker run -v /vagrant/scistream-proto/:/scistream \
     castroflaviojr/scistream:latest outbound-request \
     --server_cert="/scistream/server.crt" \
     --remote_ip 52.91.195.34 \
-    --s2cs 192.168.10.10:5000 \
+    --s2cs 172.17.0.2:5000 \
     --receiver_ports 5074 \
     --num_conn 1 \
     4f8583bc-a4d3-11ee-9fd6-034d1fcbd7c3 52.91.195.34:5074
