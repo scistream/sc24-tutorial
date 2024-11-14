@@ -53,7 +53,7 @@ This is a client request for an inbound connection to a private server at ip add
 s2uc inbound-request \
     --server_cert="/scistream/server1.crt" \
     --remote_ip 172.31.92.192 \
-    --s2cs 52.91.195.34:5000 \
+    --s2cs 52.23.209.2:5000 \
     --receiver_ports 80 \
     --num_conn 1
 ```
@@ -80,7 +80,7 @@ listeners: "52.23.209.2:5200"
 ```
 Now let's try accessing the resource.
 ```
-wget 52.23.209.2:5200
+curl 52.23.209.2:5200
 ```
 
 ### 1.4 Using Globus Authentication
@@ -215,7 +215,7 @@ s2uc \
     outbound-request \
     --server_cert="/scistream/server.crt" \
     --remote_ip 52.91.195.34 \
-    --s2cs 192.168.10.10:5000 \
+    --s2cs 172.17.0.2:5000 \
     --receiver_ports 5074 \
     --num_conn 1 \
     4f8583bc-a4d3-11ee-9fd6-034d1fcbd7c3 52.91.195.34:5074
