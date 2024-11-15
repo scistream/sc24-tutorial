@@ -208,7 +208,7 @@ s2uc inbound-request \
     --remote_ip 172.31.14.10 \
     --s2cs 44.204.123.19:5002 \
     --receiver_ports 80 \
-    --num_conn 1 \
+    --num_conn 1 \playbook.yml
 ```
 You should see an output like this:
 
