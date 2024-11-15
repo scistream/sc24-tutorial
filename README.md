@@ -21,11 +21,13 @@ Before starting, make sure you have:
 
 | Host | Public IP | Private IP |
 |----------|-----------|-----------|
-| Row 1 Col 1 | 44.204.123.19 | 172.31.14.10 |
-| Row 2 Col 1 | 44.205.7.224| 172.31.3.153 |
-| Row 3 Col 1 | 3.231.21.33 | 172.31.10.254 |
+| Scistream 1 | 44.204.123.19 | 172.31.14.10 |
+| Scistream 2 | 44.205.7.224| 172.31.3.153 |
+| Scistream 3 | 3.231.21.33 | 172.31.10.254 |
 
 ## Part 1: Connecting to AWS Control Server
+
+![Scistream Scenario1](images/scenario_1.png "Scenario1")
 
 ### 1.1 Initial Setup
 
@@ -57,7 +59,7 @@ This is a client request for an inbound connection to a private server at ip add
 
 ```bash
 s2uc inbound-request \
-    --server_cert="/scistream/server.crt" \
+    --server_cert="/scistream/server1.crt" \
     --remote_ip 172.31.14.10 \
     --s2cs 44.204.123.19:5000 \
     --receiver_ports 80 \
@@ -91,6 +93,8 @@ curl 44.204.123.19:5200
 
 ### 1.4 Using Globus Authentication
 
+![Scistream Scenario2](images/scenario_2.png "Scenario1")
+
 At this second part of the tutorial our goal is to use S2UC with Globus Auth.
 
 ```bash
@@ -106,7 +110,7 @@ After you follow the instructions you should get a globus auth token.
 Now let's make an authenticated request:
 ```
 s2uc inbound-request \
-    --server_cert="/scistream/server2.crt" \
+    --server_cert="/scistream/server1.crt" \
     --remote_ip 172.31.14.10 \
     --s2cs 44.204.123.19:5001 \
     --receiver_ports 80 \
@@ -127,7 +131,9 @@ Now we are going to learn how to configure the Scistream Control Server.
 
 First, we are going to create a Scistream Control server and run it at your local machine. Next we'll make the inbound configuration of Scistream. This step will be similar to 1.3.
 
-Then, we will use S2UC to configure it as a outbound proxy. This outbound proxy will establish a secure tunnel between your machine and a secure tunnel at a remote location. As described in figure 2 below. #TODO
+Then, we will use S2UC to configure it as a outbound proxy. This outbound proxy will establish a secure tunnel between your machine and a secure tunnel at a remote location. As described in figure 3 below.
+
+![Scistream Scenario3](images/scenario_3.png "Figure 3")
 
 ### 2.1 Start docker container with appropriate port mappings
 
@@ -204,11 +210,11 @@ First we will make a S2UC command to the remote control server:
 
 ```
 s2uc inbound-request \
-    --server_cert="/scistream/server.crt" \
+    --server_cert="/scistream/server1.crt" \
     --remote_ip 172.31.14.10 \
     --s2cs 44.204.123.19:5002 \
     --receiver_ports 80 \
-    --num_conn 1 \playbook.yml
+    --num_conn 1
 ```
 You should see an output like this:
 
@@ -222,9 +228,9 @@ s2uc \
     --server_cert="/scistream/server.crt" \
     --remote_ip 44.204.123.19 \
     --s2cs 172.17.0.2:5000 \
-    --receiver_ports 5100 \
+    --receiver_ports 5202 \
     --num_conn 1 \
-    4f8583bc-a4d3-11ee-9fd6-034d1fcbd7c3 52.91.195.34:5074
+    0af7f480-a399-11ef-9381-0242ac110003 44.204.123.19:5202
 ```
 Notice that here the receiver port as well as the preshared key are important.
 
