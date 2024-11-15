@@ -212,7 +212,7 @@ s2uc inbound-request \
 ```
 You should see an output like this:
 
-### 2.4 Configure Outbound Proxy
+### 2.5 Configure Outbound Proxy
 
 Run SciStream User Client for outbound configuration:
 
