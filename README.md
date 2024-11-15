@@ -93,7 +93,7 @@ curl 44.204.123.19:5200
 
 ### 1.4 Using Globus Authentication
 
-![Scistream Scenario2](images/scenario_2.png "Scenario1")
+![Scistream Scenario2](images/scenario_2.png "Scenario2")
 
 At this second part of the tutorial our goal is to use S2UC with Globus Auth.
 
@@ -133,7 +133,7 @@ First, we are going to create a Scistream Control server and run it at your loca
 
 Then, we will use S2UC to configure it as a outbound proxy. This outbound proxy will establish a secure tunnel between your machine and a secure tunnel at a remote location. As described in figure 3 below.
 
-![Scistream Scenario3](images/scenario_3.png "Figure 3")
+![Scistream Scenario3](images/scenario_3.png "Scenario 3")
 
 ### 2.1 Start docker container with appropriate port mappings
 
