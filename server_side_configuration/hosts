@@ -1,0 +1,8 @@
+[scistream_servers]
+ec2-scistream-1 ansible_host=44.204.123.19
+ec2-scistream-2 ansible_host=44.205.7.224
+ec2-scistream-3 ansible_host=3.231.21.33
+
+[scistream_servers:vars]
+ansible_ssh_private_key_file=~/.ssh/sc24.pem
+ansible_user=ubuntu

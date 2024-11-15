@@ -1,0 +1,65 @@
+---
+- hosts: scistream_servers
+  vars_files:
+    - vars/secrets.yml
+    - vars/vars.yml
+  tasks:
+    - name: Check if Docker is installed
+      command: docker --version
+      register: docker_check
+      ignore_errors: true
+      changed_when: false
+
+    - name: Download Docker installation script
+      become: true
+      get_url:
+        url: https://get.docker.com
+        dest: /tmp/docker.sh
+        mode: '0755'
+      when: docker_check.rc != 0
+
+    - name: Execute Docker installation script
+      become: true
+      command: sh /tmp/docker.sh
+      when: docker_check.rc != 0
+
+    - name: Add user to docker group
+      become: true
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: true
+      when: docker_check.rc != 0
+
+    - name: Remove installation script
+      become: true
+      file:
+        path: /tmp/docker.sh
+        state: absent
+      when: docker_check.rc != 0
+
+    - name: Create certificates directory if it doesn't exist
+      file:
+        path: ~/certificates
+        state: directory
+        mode: '0755'
+
+    - name: Copy certificates folder and contents
+      copy:
+        src: ./certificates/
+        dest: ~/certificates/
+        mode: preserve
+        directory_mode: '0755'
+
+    - name: Generate Docker Compose file
+      template:
+        src: docker-compose.yml.j2
+        dest: ./docker-compose.yml
+        mode: '0644'
+
+    - name: Install Docker Compose using apt
+      become: true
+      apt:
+        name: docker-compose
+        state: present
+        update_cache: yes

@@ -1,0 +1,33 @@
+version: '3'
+services:
+  web:
+    image: 'nginx:1-alpine'
+    ports:
+      - '{{ nginx_port | default("80") }}:80'
+    volumes:
+      - './html:/usr/share/nginx/html'
+    restart: unless-stopped
+
+{% for proxy in proxy_services %}
+  {{ proxy.name }}:
+    image: {{ proxy.image | default("castroflaviojr/scistream:1.1.9") }}
+    ports:
+      - "{{ proxy.management_port }}:5000"
+      - "{{ proxy.port_range }}:{{ proxy.port_range }}"
+    volumes:
+      - {{ proxy.cert_path | default("./certificates") }}:/scistream
+    command:
+      - --server_crt=/scistream/server.crt
+      - --server_key=/scistream/server.key
+{% if proxy.port_range is defined %}
+      - --port-range={{ proxy.port_range }}
+{% endif %}
+      - --type={{ proxy.type }}
+      - --verbose
+      - --listener-ip={{ ansible_host }}
+{% if proxy.client_secret is defined %}
+      - --client-secret="{{ client_secret }}"
+      - --client-id="{{ client_id }}"
+{% endif %}
+
+{% endfor %}
