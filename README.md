@@ -60,14 +60,14 @@ This is a client request for an inbound connection to a private server at ip add
 ```bash
 s2uc inbound-request \
     --server_cert="/scistream/server1.crt" \
-    --remote_ip 172.31.14.10 \
-    --s2cs 44.204.123.19:5000 \
+    --remote_ip 172.31.3.153 \
+    --s2cs 44.205.7.224:5000 \
     --receiver_ports 80 \
     --num_conn 1
 ```
 Key components to note:
-- Control Server Address: 44.204.123.19:5000
-- Producer Application: 172.31.14.10:80
+- Control Server Address: 44.205.7.224:5000
+- Producer Application: 172.31.3.153:80
 - Server certificate is required for secure communication
 
 **Important Notes:**
@@ -84,11 +84,11 @@ waiting for hello message
 sending for hello message
 sending for hello message
 Hello message sent successfully
-listeners: "44.204.123.19:5200"
+listeners: "44.205.7.224:5200"
 ```
 Now let's try accessing the resource.
 ```
-curl 44.204.123.19:5200
+curl 44.205.7.224:5200
 ```
 
 ### 1.4 Using Globus Authentication
@@ -111,15 +111,15 @@ Now let's make an authenticated request:
 ```
 s2uc inbound-request \
     --server_cert="/scistream/server1.crt" \
-    --remote_ip 172.31.14.10 \
-    --s2cs 44.204.123.19:5001 \
+    --remote_ip 172.31.3.153 \
+    --s2cs 44.205.7.224:5001 \
     --receiver_ports 80 \
     --num_conn 1 \
     --scope 26c25f3c-c4b7-4107-8a25-df96898a24fe
 ```
 To finish let's try accessing the new resource
 ```
-wget 44.204.123.19:5200
+wget 44.205.7.224:5200
 ```
 ### 1.5 Recap, first part
 
@@ -211,8 +211,8 @@ First we will make a S2UC command to the remote control server:
 ```
 s2uc inbound-request \
     --server_cert="/scistream/server1.crt" \
-    --remote_ip 172.31.14.10 \
-    --s2cs 44.204.123.19:5002 \
+    --remote_ip 172.31.3.153 \
+    --s2cs 44.205.7.224:5002 \
     --receiver_ports 80 \
     --num_conn 1
 ```
@@ -226,11 +226,11 @@ Run SciStream User Client for outbound configuration:
 s2uc \
     outbound-request \
     --server_cert="/scistream/server.crt" \
-    --remote_ip 44.204.123.19 \
+    --remote_ip 44.205.7.224 \
     --s2cs 172.17.0.2:5000 \
-    --receiver_ports 5202 \
+    --receiver_ports 5201 \
     --num_conn 1 \
-    0af7f480-a399-11ef-9381-0242ac110003 44.204.123.19:5202
+    b6ed52b6-a3a9-11ef-946b-0242ac110003 44.205.7.224:5201
 ```
 Notice that here the receiver port as well as the preshared key are important.
 
