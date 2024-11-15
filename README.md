@@ -19,6 +19,12 @@ Before starting, make sure you have:
 - OpenSSL for certificate generation
 - Open ports: 22, 5000, 5074, 5080
 
+| Host | Public IP | Private IP |
+|----------|-----------|-----------|
+| Row 1 Col 1 | 44.204.123.19 | 172.31.14.10 |
+| Row 2 Col 1 | 44.205.7.224| 172.31.3.153 |
+| Row 3 Col 1 | 3.231.21.33 | 172.31.10.254 |
+
 ## Part 1: Connecting to AWS Control Server
 
 ### 1.1 Initial Setup
@@ -51,15 +57,15 @@ This is a client request for an inbound connection to a private server at ip add
 
 ```bash
 s2uc inbound-request \
-    --server_cert="/scistream/server1.crt" \
-    --remote_ip 172.31.92.192 \
-    --s2cs 52.23.209.2:5000 \
+    --server_cert="/scistream/server.crt" \
+    --remote_ip 172.31.14.10 \
+    --s2cs 44.204.123.19:5000 \
     --receiver_ports 80 \
     --num_conn 1
 ```
 Key components to note:
-- Control Server Address: 52.23.209.2:5000
-- Producer Application: 172.31.92.192:80
+- Control Server Address: 44.204.123.19:5000
+- Producer Application: 172.31.14.10:80
 - Server certificate is required for secure communication
 
 **Important Notes:**
@@ -76,11 +82,11 @@ waiting for hello message
 sending for hello message
 sending for hello message
 Hello message sent successfully
-listeners: "52.23.209.2:5200"
+listeners: "44.204.123.19:5200"
 ```
 Now let's try accessing the resource.
 ```
-curl 52.23.209.2:5200
+curl 44.204.123.19:5200
 ```
 
 ### 1.4 Using Globus Authentication
@@ -101,15 +107,15 @@ Now let's make an authenticated request:
 ```
 s2uc inbound-request \
     --server_cert="/scistream/server2.crt" \
-    --remote_ip 172.31.92.192 \
-    --s2cs 54.196.131.201:5001 \
+    --remote_ip 172.31.14.10 \
+    --s2cs 44.204.123.19:5001 \
     --receiver_ports 80 \
     --num_conn 1 \
     --scope 26c25f3c-c4b7-4107-8a25-df96898a24fe
 ```
 To finish let's try accessing the new resource
 ```
-wget 54.196.131.201:5200
+wget 44.204.123.19:5200
 ```
 ### 1.5 Recap, first part
 
@@ -198,9 +204,9 @@ First we will make a S2UC command to the remote control server:
 
 ```
 s2uc inbound-request \
-    --server_cert="/scistream/server2.crt" \
-    --remote_ip 172.31.92.192 \
-    --s2cs 52.23.209.2:5001 \
+    --server_cert="/scistream/server.crt" \
+    --remote_ip 172.31.14.10 \
+    --s2cs 44.204.123.19:5002 \
     --receiver_ports 80 \
     --num_conn 1 \
 ```
@@ -214,9 +220,9 @@ Run SciStream User Client for outbound configuration:
 s2uc \
     outbound-request \
     --server_cert="/scistream/server.crt" \
-    --remote_ip 52.91.195.34 \
+    --remote_ip 44.204.123.19 \
     --s2cs 172.17.0.2:5000 \
-    --receiver_ports 5074 \
+    --receiver_ports 5100 \
     --num_conn 1 \
     4f8583bc-a4d3-11ee-9fd6-034d1fcbd7c3 52.91.195.34:5074
 ```

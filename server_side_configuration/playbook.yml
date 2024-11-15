@@ -63,3 +63,16 @@
         name: docker-compose
         state: present
         update_cache: yes
+
+    - name: Create html directory if it doesn't exist
+      file:
+        path: ~/html
+        state: directory
+        mode: '0755'
+
+    - name: Copy html folder and contents
+      copy:
+        src: ./files/
+        dest: ~/html/
+        mode: preserve
+        directory_mode: '0755'
