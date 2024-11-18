@@ -119,7 +119,7 @@ s2uc inbound-request \
 ```
 To finish let's try accessing the new resource
 ```
-wget 44.204.123.19:5200
+curl 44.204.123.19:5200
 ```
 ### 1.5 Recap, first part
 
