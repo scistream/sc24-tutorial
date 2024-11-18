@@ -2,9 +2,9 @@
 
 This tutorial guides you through setting up and running SciStream using Docker containers. At the end of the tutorial you should be able to reach a streaming application hidden in a private network.
 
-This tutorial has 2 parts, in the first part we focus on using the docker environment to use the Scistream CLI too to make a request to an existing Scistream Control Server setup at AWS.
+This tutorial has 2 parts, in the first part we focus on using the docker environment to use the SciStream CLI too to make a request to an existing SciStream Control Server setup at AWS.
 
-In the second part we are going to setup our own Scistream Control Server at a local machine. Next, we are going to make a Scistream Client request towards the Scistream Control Server that we created. Finally we are going to stream data from the producer to the consumer.
+In the second part we are going to setup our own SciStream Control Server at a local machine. Next, we are going to make a SciStream Client request towards the SciStream Control Server that we created. Finally we are going to stream data from the producer to the consumer.
 
 ## Table of Contents
 - [Prerequisites](#prerequisites)
@@ -21,13 +21,11 @@ Before starting, make sure you have:
 
 | Host | Public IP | Private IP |
 |----------|-----------|-----------|
-| Scistream 1 | 44.204.123.19 | 172.31.14.10 |
-| Scistream 2 | 44.205.7.224 | 172.31.3.153 |
-| Scistream 3 | 3.231.21.33 | 172.31.10.254 |
+| SciStream 1 | 44.204.123.19 | 172.31.14.10 |
+| SciStream 2 | 44.205.7.224 | 172.31.3.153 |
+| SciStream 3 | 3.231.21.33 | 172.31.10.254 |
 
 ## Part 1: Connecting to AWS Control Server
-
-![Scistream Scenario1](images/scenario_1.png "Scenario1")
 
 ### 1.1 Initial Setup
 
@@ -53,9 +51,11 @@ docker run -it -v ./certificates:/scistream   --entrypoint /bin/bash castroflavi
 
 ### 1.3 Run SciStream User Client (S2UC)
 
-The goal for this part of the tutorial is to get the user started with the Scistream User Client. For this purpose we are going to make requests against a remote Scistream Control Server at AWS as demonstrated in figure 1 below. TODO figure 1
+The goal for this part of the tutorial is to get the user started with the SciStream User Client. For this purpose we are going to make requests against a remote SciStream Control Server at AWS as demonstrated in figure 1 below.
 
-This is a client request for an inbound connection to a private server at ip address 172.31.92.192:
+![SciStream Scenario1](images/scenario_1.png "Scenario1")
+
+This is a client request for an inbound connection to a private server at IP address 172.31.10.254:
 
 ```bash
 s2uc inbound-request \
@@ -93,7 +93,7 @@ curl 3.231.21.33:5200
 
 ### 1.4 Using Globus Authentication
 
-![Scistream Scenario2](images/scenario_2.png "Scenario2")
+![SciStream Scenario2](images/scenario_2.png "Scenario2")
 
 At this second part of the tutorial our goal is to use S2UC with Globus Auth.
 
@@ -125,15 +125,15 @@ wget 3.231.21.33:5200
 
 We have seen how we can make a scistream client request to open an inbound connection at a scistream control server at AWS forwarding the connection to a private streaming application(producer).
 
-## Part 2 - Scistream Tutorial
+## Part 2 - SciStream Tutorial
 
-Now we are going to learn how to configure the Scistream Control Server.
+Now we are going to learn how to configure the SciStream Control Server.
 
-First, we are going to create a Scistream Control server and run it at your local machine. Next we'll make the inbound configuration of Scistream. This step will be similar to 1.3.
+First, we are going to create a SciStream Control server and run it at your local machine. Next we'll make the inbound configuration of SciStream. This step will be similar to 1.3.
 
 Then, we will use S2UC to configure it as a outbound proxy. This outbound proxy will establish a secure tunnel between your machine and a secure tunnel at a remote location. As described in figure 3 below.
 
-![Scistream Scenario3](images/scenario_3.png "Scenario 3")
+![SciStream Scenario3](images/scenario_3.png "Scenario 3")
 
 ### 2.1 Start docker container with appropriate port mappings
 
@@ -142,7 +142,7 @@ Then, we will use S2UC to configure it as a outbound proxy. This outbound proxy 
 docker run -it -v ./certificates:/scistream -p 5000:5000 -p 5100-5110:5100-5110  --entrypoint /bin/bash castroflaviojr/scistream:latest
 ```
 
-Our first challenge is identifying what is the reachable ip address of your docker installation.
+Our first challenge is identifying what is the reachable IP address of your docker installation.
 
 This is important because we will need it to generate security certificates.
 
@@ -164,7 +164,7 @@ root@f7a58f9814d3:/# ip a
        valid_lft forever preferred_lft forever
 ```
 
-In this case the ip address is "172.17.0.2".
+In this case the IP address is "172.17.0.2".
 
 Also notice that we are mapping ports 5000 and port range 5100-5100 at the host to the container.
 
@@ -181,13 +181,13 @@ openssl req -x509 -nodes -days 365 \
     -addext "subjectAltName=IP:172.17.0.2"
 ```
 
-Notice that this assumes that in your docker setup the ip address 172.17.0.2 is locally reachable. You might need to replace this with your locally reachable ip address.
+Notice that this assumes that in your docker setup the IP address 172.17.0.2 is locally reachable. You might need to replace this with your locally reachable IP address.
 
-The most common issue we face at this step of the tutorial is this ip address not being reachable.
+The most common issue we face at this step of the tutorial is this IP address not being reachable.
 
 ### 2.3. Run Local SciStream Control Server
 
-Now you are going to run the Scistream Control Server
+Now you are going to run the SciStream Control Server
 
 ```bash
     s2cs \
