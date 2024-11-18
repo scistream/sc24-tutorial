@@ -218,6 +218,16 @@ s2uc inbound-request \
 ```
 You should see an output like this:
 
+```
+sending client request message
+started client request
+waiting for hello message
+sending for hello message
+sending for hello message
+Hello message sent successfully
+listeners: "44.204.123.19:5200"
+```
+
 ### 2.5 Configure Outbound Proxy
 
 Run SciStream User Client for outbound configuration:
@@ -233,6 +243,12 @@ s2uc \
     0af7f480-a399-11ef-9381-0242ac110003 44.204.123.19:5202
 ```
 Notice that here the receiver port as well as the preshared key are important.
+
+To access the resource you can query the local scistream:
+
+```
+curl 172.17.0.2:5100
+```
 
 ## Troubleshooting
 
