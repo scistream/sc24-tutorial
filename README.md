@@ -43,7 +43,7 @@ cd sc24-tutorial
 docker pull castroflaviojr/scistream
 ```
 
-Now let's start a scistream docker container with certificate volume mounted and access using it's backdoor by setting the entrypoint as /bin/bash.
+Now let's start a SciStream docker container with certificate volume mounted and access using it's backdoor by setting the entrypoint as /bin/bash.
 
 ```
 docker run -it -v ./certificates:/scistream   --entrypoint /bin/bash castroflaviojr/scistream:latest
@@ -55,7 +55,7 @@ The goal for this part of the tutorial is to get the user started with the SciSt
 
 ![SciStream Scenario1](images/scenario_1.png "Scenario1")
 
-This is a client request for an inbound connection to a private server at IP address 172.31.10.254:
+This is a client request for an inbound connection to a private server at IP address 172.31.2.85:
 
 ```bash
 s2uc inbound-request \
@@ -119,11 +119,11 @@ s2uc inbound-request \
 ```
 To finish let's try accessing the new resource
 ```
-wget 3.237.85.101:5200
+curl 3.237.85.101:5200
 ```
 ### 1.5 Recap, first part
 
-We have seen how we can make a scistream client request to open an inbound connection at a scistream control server at AWS forwarding the connection to a private streaming application(producer).
+We have seen how we can make a SciStream client request to open an inbound connection at a SciStream control server at AWS forwarding the connection to a private streaming application(producer).
 
 ## Part 2 - SciStream Tutorial
 
@@ -218,6 +218,16 @@ s2uc inbound-request \
 ```
 You should see an output like this:
 
+```
+sending client request message
+started client request
+waiting for hello message
+sending for hello message
+sending for hello message
+Hello message sent successfully
+listeners: "44.204.123.19:5200"
+```
+
 ### 2.5 Configure Outbound Proxy
 
 Run SciStream User Client for outbound configuration:
@@ -233,6 +243,12 @@ s2uc \
     745cf1d0-a3aa-11ef-bec8-0242ac110003 3.237.85.101:5201
 ```
 Notice that here the receiver port as well as the preshared key are important.
+
+To access the resource you can query the local scistream:
+
+```
+curl 172.17.0.2:5100
+```
 
 ## Troubleshooting
 
