@@ -2,7 +2,7 @@
 
 This tutorial guides you through setting up and running SciStream using Docker containers. At the end of the tutorial you should be able to reach a streaming application hidden in a private network.
 
-This tutorial has 2 parts, in the first part we focus on using the Docker environment to use the SciStream CLI too to make a request to an existing SciStream Control Server setup at AWS.
+This tutorial has 2 parts, in the first part we focus on using the docker environment to use the SciStream CLI too to make a request to an existing SciStream Control Server setup at AWS.
 
 In the second part we are going to setup our own SciStream Control Server at a local machine. Next, we are going to make a SciStream Client request towards the SciStream Control Server that we created. Finally we are going to stream data from the producer to the consumer.
 
@@ -21,9 +21,9 @@ Before starting, make sure you have:
 
 | Host | Public IP | Private IP |
 |----------|-----------|-----------|
-| SciStream 1 | 44.204.123.19 | 172.31.14.10 |
-| SciStream 2 | 44.205.7.224| 172.31.3.153 |
-| SciStream 3 | 3.231.21.33 | 172.31.10.254 |
+| Scistream 1 | 3.237.85.101 | 172.31.2.85 |
+| Scistream 2 | 44.205.7.224 | 172.31.3.153 |
+| Scistream 3 | 1 | 2 |
 
 ## Part 1: Connecting to AWS Control Server
 
@@ -55,19 +55,19 @@ The goal for this part of the tutorial is to get the user started with the SciSt
 
 ![SciStream Scenario1](images/scenario_1.png "Scenario1")
 
-This is a client request for an inbound connection to a private server at IP address 172.31.14.10:
+This is a client request for an inbound connection to a private server at IP address 172.31.2.85:
 
 ```bash
 s2uc inbound-request \
     --server_cert="/scistream/server1.crt" \
-    --remote_ip 172.31.14.10 \
-    --s2cs 44.204.123.19:5000 \
+    --remote_ip 172.31.2.85 \
+    --s2cs 3.237.85.101:5000 \
     --receiver_ports 80 \
     --num_conn 1
 ```
 Key components to note:
-- Control Server Address: 44.204.123.19:5000
-- Producer Application: 172.31.14.10:80
+- Control Server Address: 3.237.85.101:5000
+- Producer Application: 172.31.2.85:80
 - Server certificate is required for secure communication
 
 **Important Notes:**
@@ -84,11 +84,11 @@ waiting for hello message
 sending for hello message
 sending for hello message
 Hello message sent successfully
-listeners: "44.204.123.19:5200"
+listeners: "3.237.85.101:5200"
 ```
 Now let's try accessing the resource.
 ```
-curl 44.204.123.19:5200
+curl 3.237.85.101:5200
 ```
 
 ### 1.4 Using Globus Authentication
@@ -111,15 +111,15 @@ Now let's make an authenticated request:
 ```
 s2uc inbound-request \
     --server_cert="/scistream/server1.crt" \
-    --remote_ip 172.31.14.10 \
-    --s2cs 44.204.123.19:5001 \
+    --remote_ip 172.31.2.85 \
+    --s2cs 3.237.85.101:5001 \
     --receiver_ports 80 \
     --num_conn 1 \
     --scope 26c25f3c-c4b7-4107-8a25-df96898a24fe
 ```
 To finish let's try accessing the new resource
 ```
-curl 44.204.123.19:5200
+curl 3.237.85.101:5200
 ```
 ### 1.5 Recap, first part
 
@@ -181,9 +181,9 @@ openssl req -x509 -nodes -days 365 \
     -addext "subjectAltName=IP:172.17.0.2"
 ```
 
-Notice that this assumes that in your docker setup the ip address 172.17.0.2 is locally reachable. You might need to replace this with your locally reachable ip address.
+Notice that this assumes that in your docker setup the IP address 172.17.0.2 is locally reachable. You might need to replace this with your locally reachable IP address.
 
-The most common issue we face at this step of the tutorial is this ip address not being reachable.
+The most common issue we face at this step of the tutorial is this IP address not being reachable.
 
 ### 2.3. Run Local SciStream Control Server
 
@@ -211,8 +211,8 @@ First we will make a S2UC command to the remote control server:
 ```
 s2uc inbound-request \
     --server_cert="/scistream/server1.crt" \
-    --remote_ip 172.31.14.10 \
-    --s2cs 44.204.123.19:5002 \
+    --remote_ip 172.31.2.85 \
+    --s2cs 3.237.85.101:5002 \
     --receiver_ports 80 \
     --num_conn 1
 ```
@@ -236,11 +236,11 @@ Run SciStream User Client for outbound configuration:
 s2uc \
     outbound-request \
     --server_cert="/scistream/server.crt" \
-    --remote_ip 44.204.123.19 \
+    --remote_ip 3.237.85.101 \
     --s2cs 172.17.0.2:5000 \
-    --receiver_ports 5202 \
+    --receiver_ports 5201 \
     --num_conn 1 \
-    0af7f480-a399-11ef-9381-0242ac110003 44.204.123.19:5202
+    745cf1d0-a3aa-11ef-bec8-0242ac110003 3.237.85.101:5201
 ```
 Notice that here the receiver port as well as the preshared key are important.
 

@@ -76,3 +76,7 @@
         dest: ~/html/
         mode: preserve
         directory_mode: '0755'
+
+    - name: Run Docker Compose
+      command: docker compose up -d
+      become: true
