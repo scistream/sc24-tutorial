@@ -133,7 +133,7 @@ First, we are going to create a SciStream Control server and run it at your loca
 
 Then, we will use S2UC to configure it as a outbound proxy. This outbound proxy will establish a secure tunnel between your machine and a secure tunnel at a remote location. As described in figure 3 below.
 
-![SciStream Scenario3](images/scenario_3_v1.png "Scenario 3")
+![SciStream Scenario3](images/scenario_3_v1.jpg "Scenario 3")
 
 ### 2.1 Start docker container with appropriate port mappings
 
