@@ -21,9 +21,9 @@ Before starting, make sure you have:
 
 | Host | Public IP | Private IP |
 |----------|-----------|-----------|
-| SciStream 1 | 44.204.123.19 | 172.31.14.10 |
-| SciStream 2 | 44.205.7.224| 172.31.3.153 |
-| SciStream 3 | 3.231.21.33 | 172.31.10.254 |
+| Scistream 1 | 3.237.85.101 | 172.31.2.85 |
+| Scistream 2 | 44.200.11.77 | 172.31.7.101 |
+| Scistream 3 | 3.238.193.24 | 172.31.2.6 |
 
 ## Part 1: Connecting to AWS Control Server
 
@@ -53,21 +53,21 @@ docker run -it -v ./certificates:/scistream   --entrypoint /bin/bash castroflavi
 
 The goal for this part of the tutorial is to get the user started with the SciStream User Client. For this purpose we are going to make requests against a remote SciStream Control Server at AWS as demonstrated in figure 1 below.
 
-![SciStream Scenario1](images/scenario_1.png "Scenario1")
+![SciStream Scenario1](images/scenario_1_v2.jpg "Scenario1")
 
-This is a client request for an inbound connection to a private server at IP address 172.31.3.153:
+This is a client request for an inbound connection to a private server at IP address 172.31.2.85:
 
 ```bash
 s2uc inbound-request \
     --server_cert="/scistream/server1.crt" \
-    --remote_ip 172.31.3.153 \
-    --s2cs 44.205.7.224:5000 \
+    --remote_ip 172.31.2.85 \
+    --s2cs 3.237.85.101:5000 \
     --receiver_ports 80 \
     --num_conn 1
 ```
 Key components to note:
-- Control Server Address: 44.205.7.224:5000
-- Producer Application: 172.31.3.153:80
+- Control Server Address: 3.237.85.101:5000
+- Producer Application: 172.31.2.85:80
 - Server certificate is required for secure communication
 
 **Important Notes:**
@@ -84,16 +84,16 @@ waiting for hello message
 sending for hello message
 sending for hello message
 Hello message sent successfully
-listeners: "44.205.7.224:5200"
+listeners: "3.237.85.101:5200"
 ```
 Now let's try accessing the resource.
 ```
-curl 44.205.7.224:5200
+curl 3.237.85.101:5200
 ```
 
 ### 1.4 Using Globus Authentication
 
-![SciStream Scenario2](images/scenario_2.png "Scenario2")
+![SciStream Scenario2](images/scenario_2_v2.jpg "Scenario2")
 
 At this second part of the tutorial our goal is to use S2UC with Globus Auth.
 
@@ -111,19 +111,19 @@ Now let's make an authenticated request:
 ```
 s2uc inbound-request \
     --server_cert="/scistream/server1.crt" \
-    --remote_ip 172.31.3.153 \
-    --s2cs 44.205.7.224:5001 \
+    --remote_ip 172.31.2.85 \
+    --s2cs 3.237.85.101:5001 \
     --receiver_ports 80 \
     --num_conn 1 \
     --scope 26c25f3c-c4b7-4107-8a25-df96898a24fe
 ```
 To finish let's try accessing the new resource
 ```
-wget 44.205.7.224:5200
+curl 3.237.85.101:5200
 ```
 ### 1.5 Recap, first part
 
-We have seen how we can make a scistream client request to open an inbound connection at a scistream control server at AWS forwarding the connection to a private streaming application(producer).
+We have seen how we can make a SciStream client request to open an inbound connection at a SciStream control server at AWS forwarding the connection to a private streaming application(producer).
 
 ## Part 2 - SciStream Tutorial
 
@@ -133,7 +133,7 @@ First, we are going to create a SciStream Control server and run it at your loca
 
 Then, we will use S2UC to configure it as a outbound proxy. This outbound proxy will establish a secure tunnel between your machine and a secure tunnel at a remote location. As described in figure 3 below.
 
-![SciStream Scenario3](images/scenario_3.png "Scenario 3")
+![SciStream Scenario3](images/scenario_3_v2.png "Scenario 3")
 
 ### 2.1 Start docker container with appropriate port mappings
 
@@ -211,12 +211,22 @@ First we will make a S2UC command to the remote control server:
 ```
 s2uc inbound-request \
     --server_cert="/scistream/server1.crt" \
-    --remote_ip 172.31.3.153 \
-    --s2cs 44.205.7.224:5002 \
+    --remote_ip 172.31.2.85 \
+    --s2cs 3.237.85.101:5002 \
     --receiver_ports 80 \
     --num_conn 1
 ```
 You should see an output like this:
+
+```
+sending client request message
+started client request
+waiting for hello message
+sending for hello message
+sending for hello message
+Hello message sent successfully
+listeners: "44.204.123.19:5200"
+```
 
 ### 2.5 Configure Outbound Proxy
 
@@ -226,13 +236,19 @@ Run SciStream User Client for outbound configuration:
 s2uc \
     outbound-request \
     --server_cert="/scistream/server.crt" \
-    --remote_ip 44.205.7.224 \
+    --remote_ip 3.237.85.101 \
     --s2cs 172.17.0.2:5000 \
     --receiver_ports 5201 \
     --num_conn 1 \
-    b6ed52b6-a3a9-11ef-946b-0242ac110003 44.205.7.224:5201
+    745cf1d0-a3aa-11ef-bec8-0242ac110003 3.237.85.101:5201
 ```
 Notice that here the receiver port as well as the preshared key are important.
+
+To access the resource you can query the local scistream:
+
+```
+curl 172.17.0.2:5100
+```
 
 ## Troubleshooting
 
